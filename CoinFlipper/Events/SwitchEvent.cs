@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using CoinFlipper.Interfaces;
 using MapGeneration;
@@ -9,13 +10,14 @@ namespace CoinFlipper.Events;
 
 public class SwitchEvent : ICoinEvent
 {
-	public static readonly RoomName[] BlacklistedRooms = new RoomName[6]
+	public static readonly RoomName[] BlacklistedRooms = new RoomName[]
 	{
 		RoomName.EzCollapsedTunnel,
 		RoomName.EzEvacShelter,
 		RoomName.EzRedroom,
 		RoomName.HczMicroHID,
 		RoomName.HczTestroom,
+		RoomName.Pocket,
 		RoomName.Unnamed
 	};
 
@@ -27,10 +29,10 @@ public class SwitchEvent : ICoinEvent
 
 	public void Apply(Player player)
 	{
-		Player[] array = (from p in Player.GetPlayers()
+        Player[] array = (from p in Player.GetPlayers()
 			where p.NetworkId != player.NetworkId && ProcessPlayer(player, p)
 			select p).ToArray();
-		if (array.Length < 1)
+		if (array.Length < 1 || player.Room.Name == RoomName.Pocket)
 		{
 			player.SendBroadcast("<b><color=#ff0000>[SWITCH]</color>\nNemáš s kým si prohodit pozice.</b>", 5, Broadcast.BroadcastFlags.Normal, shouldClearPrevious: true);
 			return;
@@ -74,11 +76,10 @@ public class SwitchEvent : ICoinEvent
 		if (roleTypeId == RoleTypeId.Scp079 || roleTypeId == RoleTypeId.Tutorial)
 		{
 			return false;
-		}
-		if (roomIdentifier != null && BlacklistedRooms.Contains(roomIdentifier.Name))
-		{
-			return false;
-		}
-		return true;
+        }
+        if (roomIdentifier != null && BlacklistedRooms.Contains(roomIdentifier.Name)) {
+            return false;
+        }
+        return true;
 	}
 }
