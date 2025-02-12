@@ -29,10 +29,14 @@ public class SwitchEvent : ICoinEvent
 
 	public void Apply(Player player)
 	{
+		if (player.Room.Name == RoomName.Pocket) {
+            RandomTeleportEvent.StaticApply(player);
+            return;
+		}
         Player[] array = (from p in Player.GetPlayers()
 			where p.NetworkId != player.NetworkId && ProcessPlayer(player, p)
 			select p).ToArray();
-		if (array.Length < 1 || player.Room.Name == RoomName.Pocket)
+		if (array.Length < 1)
 		{
 			player.SendBroadcast("<b><color=#ff0000>[SWITCH]</color>\nNemáš s kým si prohodit pozice.</b>", 5, Broadcast.BroadcastFlags.Normal, shouldClearPrevious: true);
 			return;

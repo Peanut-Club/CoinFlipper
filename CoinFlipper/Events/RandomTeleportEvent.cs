@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using CoinFlipper.Interfaces;
+using CustomPlayerEffects;
 using Interactables.Interobjects.DoorUtils;
 using MapGeneration;
 using PluginAPI.Core;
+using PluginAPI.Events;
 using UnityEngine;
+using static PlayerList;
 
 namespace CoinFlipper.Events;
 
@@ -33,8 +36,9 @@ public class RandomTeleportEvent : ICoinEvent
 
 	public CoinEventConfig Config { get; set; }
 
-	public void Apply(Player player)
+	public static void StaticApply(Player player)
 	{
+		bool wasInPocket = player.Room.Name == RoomName.Pocket;
 		_ = RoomIdentifier.AllRoomIdentifiers;
 		RoomIdentifier roomIdentifier = GetValidRooms().ToArray().RandomItem();
 		if ((object)roomIdentifier != null)
@@ -47,8 +51,23 @@ public class RandomTeleportEvent : ICoinEvent
 			}
 			player.SendBroadcast($"<b><color=#ff0000>[TELEPORT]</color>\nMístnost: <color=#d4ff33>{roomIdentifier.Name}</color></b>", 5, Broadcast.BroadcastFlags.Normal, shouldClearPrevious: true);
 			player.Position = position;
-		}
+
+			if (wasInPocket) {
+				var hub = player.ReferenceHub;
+				hub.playerEffectsController.EnableEffect<Disabled>(10f, addDuration: true);
+				hub.playerEffectsController.EnableEffect<Traumatized>();
+				hub.playerEffectsController.DisableEffect<PocketCorroding>();
+				hub.playerEffectsController.DisableEffect<Corroding>();
+			}
+
+            //PocketDimensionTeleport.OnPlayerEscapePocketDimension.Invoke(hub);
+            //PlayerEvents.OnLeftPocketDimension(new PlayerLeftPocketDimensionEventArgs(hub, instance, isSuccessful: true));
+        }
 	}
+
+	public void Apply(Player player) {
+		StaticApply(player);
+	} 
 
 	public bool CanApply(Player player)
 	{
