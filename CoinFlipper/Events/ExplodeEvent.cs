@@ -1,5 +1,5 @@
 using CoinFlipper.Interfaces;
-using PluginAPI.Core;
+using LabApi.Features.Wrappers;
 using Utils;
 
 namespace CoinFlipper.Events;

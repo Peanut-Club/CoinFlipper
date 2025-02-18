@@ -1,37 +1,41 @@
-using InventorySystem.Items.Coin;
-using PluginAPI.Core;
-using PluginAPI.Core.Attributes;
-using PluginAPI.Events;
+using LabApi.Events.Arguments.PlayerEvents;
+using LabApi.Features.Wrappers;
+using LabApi.Loader.Features.Plugins;
+using System;
 
 namespace CoinFlipper;
 
-public class CoinPlugin
-{
-	public static PluginHandler Handler;
-
+public class CoinPlugin : Plugin<CoinConfig> {
 	public static CoinPlugin Plugin;
 
-	[PluginConfig]
-	public CoinConfig Config;
+    public override string Name { get; } = "CoinFlipper";
 
-	[PluginEntryPoint("CoinFlipper", "1.0.0", "Adds random events that can occur when a player flips a coin.", "marchellc")]
-	public void Load()
-	{
-		CoinEvents.ReloadEvents();
-		EventManager.RegisterAllEvents(this);
-	}
+    public override string Description { get; } = "Adds random events that can occur when a player flips a coin.";
 
-	[PluginEvent]
-	public PlayerPreCoinFlipCancellationData OnCoin(PlayerPreCoinFlipEvent ev)
-	{
-		bool flag = CoinUtils.PickBool(50);
-		PlayerPreCoinFlipCancellationData result = new PlayerPreCoinFlipCancellationData((!flag) ? PlayerPreCoinFlipCancellationData.CoinFlipCancellation.Heads : PlayerPreCoinFlipCancellationData.CoinFlipCancellation.Tails);
-		CoinEvents.RunEvents(ev.Player, ev.Player.ReferenceHub.inventory.CurInstance as Coin, flag);
-		return result;
-	}
+    public override string Author { get; } = "marchellc";
 
-	public static void SaveConfig()
+    public override Version Version { get; } = new Version(1, 0, 0);
+
+    public override Version RequiredApiVersion { get; }
+
+    public override void Enable() {
+        Plugin.Enable();
+        CoinEvents.ReloadEvents();
+
+        LabApi.Events.Handlers.PlayerEvents.FlippingCoin += OnFlippingCoin;
+    }
+
+    public override void Disable() {
+        Plugin.Disable();
+
+        LabApi.Events.Handlers.PlayerEvents.FlippingCoin -= OnFlippingCoin;
+    }
+
+    public void OnFlippingCoin(PlayerFlippingCoinEventArgs ev)
 	{
-		Handler.SaveConfig(Plugin, "Config");
+		bool success = CoinUtils.PickBool(50);
+        ev.IsTails = success;
+
+        CoinEvents.RunEvents(ev.Player, (ev.Player.CurrentItem as CoinItem).Base, success);
 	}
 }

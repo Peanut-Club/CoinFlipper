@@ -3,9 +3,8 @@ using System.Linq;
 using CoinFlipper.Interfaces;
 using CustomPlayerEffects;
 using Interactables.Interobjects.DoorUtils;
+using LabApi.Features.Wrappers;
 using MapGeneration;
-using PluginAPI.Core;
-using PluginAPI.Events;
 using UnityEngine;
 using static PlayerList;
 

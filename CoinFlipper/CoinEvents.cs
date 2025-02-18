@@ -4,9 +4,10 @@ using System.Linq;
 using CoinFlipper.Interfaces;
 using InventorySystem;
 using InventorySystem.Items.Coin;
+using LabApi.Features.Console;
+using LabApi.Features.Wrappers;
 using MEC;
 using NorthwoodLib.Pools;
-using PluginAPI.Core;
 using Utils.NonAllocLINQ;
 
 namespace CoinFlipper;
@@ -41,7 +42,7 @@ public static class CoinEvents
 				if (Activator.CreateInstance(type) is ICoinEvent coinEvent)
 				{
 					coinEvent.Load();
-					Info("Loaded coin event &1" + coinEvent.Id + "&r!");
+                    Logger.Info("Loaded coin event &1" + coinEvent.Id + "&r!");
 					if (!CoinConfig.Instance.CoinEvents.TryGetValue(coinEvent.Id, out var value))
 					{
 						value = CoinEventConfig.DefaultConfig;
@@ -54,12 +55,12 @@ public static class CoinEvents
 				}
 				else
 				{
-					Warn("Failed to construct coin event &2" + type.Name + "&r!");
+                    Logger.Warn("Failed to construct coin event &2" + type.Name + "&r!");
 				}
 			}
 			catch (Exception arg)
 			{
-				Error($"An error occured while constructing coin event &2{type.Name}&r!\n{arg}");
+                Logger.Error($"An error occured while constructing coin event &2{type.Name}&r!\n{arg}");
 			}
 		}
 	}
@@ -117,23 +118,8 @@ public static class CoinEvents
 		}
 		catch (Exception arg)
 		{
-			Error($"Caught an error while picking a random coin event:\n{arg}");
+            Logger.Error($"Caught an error while picking a random coin event:\n{arg}");
 		}
-	}
-
-	public static void Error(object message)
-	{
-		Log.Info(message.ToString(), "Coin Flipper");
-	}
-
-	public static void Warn(object message)
-	{
-		Log.Info(message.ToString(), "Coin Flipper");
-	}
-
-	public static void Info(object message)
-	{
-		Log.Info(message.ToString(), "Coin Flipper");
 	}
 
 	private static int ChancePicker(CoinEventInfo coinEventInfo, Player player)

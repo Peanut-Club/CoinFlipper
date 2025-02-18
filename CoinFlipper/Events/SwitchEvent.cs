@@ -3,7 +3,7 @@ using System.Linq;
 using CoinFlipper.Interfaces;
 using MapGeneration;
 using PlayerRoles;
-using PluginAPI.Core;
+using LabApi.Features.Wrappers;
 using UnityEngine;
 
 namespace CoinFlipper.Events;
@@ -33,7 +33,7 @@ public class SwitchEvent : ICoinEvent
             RandomTeleportEvent.StaticApply(player);
             return;
 		}
-        Player[] array = (from p in Player.GetPlayers()
+        Player[] array = (from p in Player.List
 			where p.NetworkId != player.NetworkId && ProcessPlayer(player, p)
 			select p).ToArray();
 		if (array.Length < 1)
@@ -56,7 +56,7 @@ public class SwitchEvent : ICoinEvent
 
 	public bool CanApply(Player player)
 	{
-		return Player.GetPlayers().Any((Player p) => p.NetworkId != player.NetworkId && ProcessPlayer(player, p));
+		return Player.List.Any((Player p) => p.NetworkId != player.NetworkId && ProcessPlayer(player, p));
 	}
 
 	public void Load()

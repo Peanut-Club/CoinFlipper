@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommandSystem;
-using PluginAPI.Core;
+using LabApi.Features.Wrappers;
 using Utils.NonAllocLINQ;
 
 namespace CoinFlipper.Commands;

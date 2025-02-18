@@ -9,7 +9,8 @@ using InventorySystem.Items.Firearms.BasicMessages;
 using InventorySystem.Items.Firearms.Modules;
 using InventorySystem.Items.Pickups;
 using MEC;
-using PluginAPI.Core;
+using LabApi.Features.Wrappers;
+using LabApi.Features.Console;
 
 namespace CoinFlipper.Events;
 
@@ -140,7 +141,7 @@ public class ItemLotteryEvent : ICoinEvent
 		}
 		catch (Exception message)
 		{
-			CoinEvents.Error(message);
+			Logger.Error(message);
 		}
 	}
 

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LabApi.Features.Wrappers;
 using PlayerStatsSystem;
-using PluginAPI.Core;
 using UnityEngine;
 
 namespace CoinFlipper;

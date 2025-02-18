@@ -20,8 +20,8 @@
     <Reference Include="Mirror">
       <HintPath>$(SL_REFERENCES)\Mirror-Publicized.dll</HintPath>
     </Reference>
-    <Reference Include="PluginAPI">
-      <HintPath>$(SL_REFERENCES)\PluginAPI-Publicized.dll</HintPath>
+    <Reference Include="LabApi">
+      <HintPath>$(SL_REFERENCES)\LabApi-Publicized.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>$(SL_REFERENCES)\UnityEngine.CoreModule.dll</HintPath>
