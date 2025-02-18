@@ -20,7 +20,9 @@ public class ItemLotteryEvent : ICoinEvent
 
 	private static ItemLotteryConfig _config;
 
-	public string Id => "item_lottery";
+    public static string PublicId => "item_lottery";
+
+    public string Id => PublicId;
 
 	public bool RemovesCoin => true;
 

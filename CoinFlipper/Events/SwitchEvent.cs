@@ -21,7 +21,9 @@ public class SwitchEvent : ICoinEvent
 		RoomName.Unnamed
 	};
 
-	public string Id => "switch";
+    public static string PublicId => "switch";
+
+    public string Id => PublicId;
 
 	public bool RemovesCoin => true;
 

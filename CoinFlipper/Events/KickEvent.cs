@@ -3,9 +3,10 @@ using LabApi.Features.Wrappers;
 
 namespace CoinFlipper.Events;
 
-public class KickEvent : ICoinEvent
-{
-	public string Id => "kick";
+public class KickEvent : ICoinEvent {
+    public static string PublicId => "kick";
+
+    public string Id => PublicId;
 
 	public bool RemovesCoin => false;
 

@@ -8,7 +8,9 @@ public class HealthEvent : ICoinEvent
 {
 	private static HealthConfig _config;
 
-	public string Id => "health";
+    public static string PublicId => "health";
+
+    public string Id => PublicId;
 
 	public bool RemovesCoin => true;
 

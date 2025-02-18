@@ -6,7 +6,9 @@ namespace CoinFlipper.Events;
 
 public class ExplodeEvent : ICoinEvent
 {
-	public string Id => "explode";
+	public static string PublicId => "explode";
+
+	public string Id => PublicId;
 
 	public bool RemovesCoin => true;
 

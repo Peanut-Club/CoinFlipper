@@ -29,7 +29,9 @@ public class RandomTeleportEvent : ICoinEvent
 		[RoomName.EzIntercom] = new Vector3(-4f, -3f, -2f)
 	};
 
-	public string Id => "random_teleport";
+    public static string PublicId => "random_teleport";
+
+    public string Id => PublicId;
 
 	public bool RemovesCoin => true;
 

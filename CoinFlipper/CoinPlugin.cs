@@ -19,15 +19,12 @@ public class CoinPlugin : Plugin<CoinConfig> {
     public override Version RequiredApiVersion { get; }
 
     public override void Enable() {
-        Plugin.Enable();
         CoinEvents.ReloadEvents();
 
         LabApi.Events.Handlers.PlayerEvents.FlippingCoin += OnFlippingCoin;
     }
 
     public override void Disable() {
-        Plugin.Disable();
-
         LabApi.Events.Handlers.PlayerEvents.FlippingCoin -= OnFlippingCoin;
     }
 

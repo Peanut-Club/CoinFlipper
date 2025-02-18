@@ -5,7 +5,9 @@ namespace CoinFlipper.Events;
 
 public class NoEvent : ICoinEvent
 {
-	public string Id => "no_event";
+    public static string PublicId => "no_event";
+
+    public string Id => PublicId;
 
 	public bool RemovesCoin => true;
 
