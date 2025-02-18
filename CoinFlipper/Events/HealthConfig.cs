@@ -2,7 +2,7 @@ namespace CoinFlipper.Events;
 
 public class HealthConfig
 {
-	public int MinAddHealth { get; set; } = 300;
+	public int MinAddHealth { get; set; } = 30;
 
 
 	public int MaxAddHealth { get; set; } = 100;
